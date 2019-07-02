@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Helianthuswhite</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://helianthuswhite.cn/"/>
+  <updated>2019-07-02T11:57:11.168Z</updated>
+  <id>http://helianthuswhite.cn/</id>
+  
+  <author>
+    <name>helianthuswhite</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>table无法设置td宽度</title>
+    <link href="http://helianthuswhite.cn/2017/10/11/article-66/"/>
+    <id>http://helianthuswhite.cn/2017/10/11/article-66/</id>
+    <published>2017-10-11T07:19:22.000Z</published>
+    <updated>2019-07-02T11:57:11.168Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天在修改别人的代码的时候突然遇到这么一个问题，在之前的代码中给<code>&lt;table&gt;</code>标签的<code>&lt;td width=&quot;25%&quot;&gt;</code>设置了宽度，可是当<code>&lt;td&gt;</code>中的内容增多时，依然被撑开了，而不是设定好的<code>25%</code>。</p><p>于是我试了给<code>&lt;td style=&quot;width: 25%&quot;&gt;</code>设置样式，在css文件中设置样式，以及在标签内加入一个块级元素的方式，都失败了。。。。。。</p><p>只能在网上找寻办法，发现了<code>table</code>有这么一个CSS属性：<code>table-layout</code>。</p><a id="more"></a><p>这个属性主要有两个属性值：</p><ul><li>automatic     //默认值，列宽度由单元格内容设定</li><li>fixed     //列宽由表格宽度和列宽度设定</li></ul><p>从属性值我们可以知道，在我们不给<code>table</code>设置这个属性时，列宽都是由单元格内容自适应的，设定了属性值<code>fixed</code>之后，我们才可以给列宽设定值来手动更改表格的布局。</p><p>不过需要知道的是，自动表格布局在计算布局时由于要自适应内容，所以会把所有的内容都遍历一遍，这样就会很慢。而固定表格的布局时，当浏览器接收到表格的第一行之后就会完成表格的布局，不会再计算后面的内容，也快速了很多。</p><p>所以我们最终的解决办法就是给<code>table</code>设置这么一个样式属性，属性值为<code>fixed</code>，然后再给<code>td</code>设置宽度即可生效。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天在修改别人的代码的时候突然遇到这么一个问题，在之前的代码中给&lt;code&gt;&amp;lt;table&amp;gt;&lt;/code&gt;标签的&lt;code&gt;&amp;lt;td width=&amp;quot;25%&amp;quot;&amp;gt;&lt;/code&gt;设置了宽度，可是当&lt;code&gt;&amp;lt;td&amp;gt;&lt;/code&gt;中的内容增多时，依然被撑开了，而不是设定好的&lt;code&gt;25%&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;于是我试了给&lt;code&gt;&amp;lt;td style=&amp;quot;width: 25%&amp;quot;&amp;gt;&lt;/code&gt;设置样式，在css文件中设置样式，以及在标签内加入一个块级元素的方式，都失败了。。。。。。&lt;/p&gt;
+&lt;p&gt;只能在网上找寻办法，发现了&lt;code&gt;table&lt;/code&gt;有这么一个CSS属性：&lt;code&gt;table-layout&lt;/code&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="CSS" scheme="http://helianthuswhite.cn/tags/CSS/"/>
+    
+      <category term="HTML" scheme="http://helianthuswhite.cn/tags/HTML/"/>
+    
+      <category term="响应式" scheme="http://helianthuswhite.cn/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>viewport的理解</title>
+    <link href="http://helianthuswhite.cn/2017/09/30/article-65/"/>
+    <id>http://helianthuswhite.cn/2017/09/30/article-65/</id>
+    <published>2017-09-30T11:42:49.000Z</published>
+    <updated>2019-07-02T11:57:10.961Z</updated>
+    
+    <content type="html"><![CDATA[<p>以前一直没有注意过这个属性的含义，后来在做移动端的一些设计的时候，这个属性已经成了必不可少的东西，所以才找了时间去好好理解一下。</p><a id="more"></a><p>先提一个概念 —— <em>像素比</em>，这个东西指的是<em>设备物理像素与设备无关像素（dips)的比例</em>。设备的物理像素很好理解，就是设备的分辨率，那<code>dips</code>是什么东西呢？这个我们可以直接将其理解为屏幕的可视区域大小。比如显示器的分辨率为1600px，那么设备的物理像素就是1600px，而显示器的可视区域只有800px，那么这800px即是显示器的<code>dips</code>，于是我们可以知道该设备的像素比为2。</p><p>知道了像素比和<code>dips</code>，再来说一说我们的CSS样式中的像素。在未进行任何设置的情况下，CSS中的像素与设备的物理像素保持一致。这时我们设置CSS中的1px，对应到屏幕中去实际的像素也是物理像素的1px。</p><p>我们这里使用一张200 X 200的图片来演示。</p><p>代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">            <span class="selector-class">.photo</span> &#123;</span></span><br><span class="line">                width: 200px;</span><br><span class="line">                height: 200px;</span><br><span class="line"><span class="css">                <span class="selector-tag">border</span>: <span class="selector-tag">solid</span> 1<span class="selector-tag">px</span> <span class="selector-id">#000</span>;</span></span><br><span class="line">                background: url(./author.jpg) no-repeat;</span><br><span class="line">                background-size:  100% 100%;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"photo"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p><img src="http://oetmrek6t.bkt.clouddn.com/article_65_1.png" alt="未添加viewport"></p><p>上面是未添加viewport的图片，下面是添加了viewport的图片。</p><p><img src="http://oetmrek6t.bkt.clouddn.com/article_65_2.png" alt="添加了viewport"></p><p>从上面的对比我们可以发现，在未添加viewport时，虽然设备的<code>dips</code>只有<code>375 X 667</code>，但是由于CSS中的1px是与屏幕分辨率对应的，所以我们设置的图片会显示的很小。而通过设置<code>viewport</code>我们将CSS像素与<code>dips</code>比例设置为1，这时CSS中的1px与<code>dips</code>保持一致，图片便会变大。</p><p>在知道了上面的事情，我们可以大致理解<code>viewport</code>的作用，即改变CSS像素与<code>dips</code>的比例，下面是<code>viewport</code>的其他属性解析。</p><p><img src="http://oetmrek6t.bkt.clouddn.com/article_65_3.png" alt="viewport属性表格"></p><p>需要注意的是，通常我们不会给<code>width</code>和<code>height</code>属性设置具体的数值，而是通过设置<code>width=device-width</code>来使<code>viewport</code>的大小与设备大小即<code>dips</code>一致。</p><p>参考文章：</p><ul><li><a href="https://zhuanlan.zhihu.com/p/26131956" target="_blank" rel="noopener">响应式网页开发基础：DPR 与 viewport</a></li><li><a href="http://tgideas.qq.com/webplat/info/news_version3/804/7104/7106/m5723/201509/376281.shtml" target="_blank" rel="noopener">深入了解viewport和px</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;以前一直没有注意过这个属性的含义，后来在做移动端的一些设计的时候，这个属性已经成了必不可少的东西，所以才找了时间去好好理解一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="响应式设计" scheme="http://helianthuswhite.cn/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="面试" scheme="http://helianthuswhite.cn/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="HTML" scheme="http://helianthuswhite.cn/tags/HTML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于p标签内容换行问题</title>
+    <link href="http://helianthuswhite.cn/2017/09/27/article-64/"/>
+    <id>http://helianthuswhite.cn/2017/09/27/article-64/</id>
+    <published>2017-09-27T05:13:41.000Z</published>
+    <updated>2019-07-02T11:57:10.801Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天同事突然给我反馈了一个这样的问题，我一看，什么鬼，怎么变成这样了。就看了一下代码，发现每一行右边的p标签用了<code>absolute</code>属性，所以就导致了发生了这样的事情。</p><p><img src="http://oetmrek6t.bkt.clouddn.com/article_64_1.png" alt="BUG图片"></p><a id="more"></a><p>拿到手的第一想法，把<code>absolute</code>属性去掉就是了，然后通过<code>margin</code>来控制定位与左边对齐，这样右边p标签的高度就可以跟着内容自适应了。</p><p><img src="http://oetmrek6t.bkt.clouddn.com/article_64_2.png" alt="第一次修改后的图片"></p><p>纳尼，为什么第一行是这样的，这么难受吗。我又好好看了一下代码，好像没什么问题，就搜了一下，发现浏览器对中英文字符处理是不一样的。</p><pre><code>准确的说是对中日韩文本和其他文本处理不一样，我上面第一行的链接会被浏览器当做一个单词展示，所以不会换行的。</code></pre><p>既然还有这种操作，那也只能默默承受了。于是我又好好去看了一下w3c的CSS文本属性，发现了解决办法。</p><h2 id="CSS文本换行"><a href="#CSS文本换行" class="headerlink" title="CSS文本换行"></a>CSS文本换行</h2><p>在文本属性的最后，我发现了有这么三个属性<code>text-wrap</code>、<code>word-break</code>、<code>word-wrap</code>。</p><p><img src="http://oetmrek6t.bkt.clouddn.com/article_64_3.png" alt="三个属性图"></p><p>这三个属性都是规定文本的换行规则的，但是<code>text-wrap</code>属性目前主流浏览器都不支持，所以我们只关注下面的两个属性。</p><h2 id="word-break"><a href="#word-break" class="headerlink" title="word-break"></a>word-break</h2><p>从描述上已经知道了非中日韩文本的换行容易出现问题，可以使用该属性解决，它的属性值主要有以下三个：</p><ul><li>normal    //使用浏览器默认的换行规则</li><li>break-all     //允许在单词内换行</li><li>keep-all     //只能在半角空格或连字符处换行</li></ul><p>大概是什么意思呢，<code>break-all</code>就是当一个单词在上一行显示不下时，可以在单词内换行，一部分到下一行中去；<code>keep-all</code>也是可以换行，但是不允许将一个单词折断，如果一个单词在上一行显示不下，会在单词前面的空格处换行，但是这会导致一个问题，如果单词过长的话，第二行也显示不下的时候单词是不会再换行了。</p><h2 id="break-word"><a href="#break-word" class="headerlink" title="break-word"></a>break-word</h2><p>这个属性就可以很好的解决我的问题，允许长单词或URL地址换行到下一行，它的属性值只有两个：</p><ul><li>normal    //只在允许的断字点换行</li><li>break-word     //在长单词或者URL地址内部进行换行</li></ul><p>这里也需要解释一下，其实<code>normal</code>属性跟<code>word-break</code>的<code>keep-all</code>属性的功能是一致的，而<code>break-word</code>则是将<code>break-all</code>和<code>keep-all</code>的功能进行了叠加，即一行展示不下时，单词会换到下一行，如果下一行再显示不下则会在单词内进行换行处理。</p><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>有了上面的两个属性，我们的BUG就被开心的解决了，但是对于文本换行的处理，不止这些，因为会涉及到一个空格转换的问题，浏览器对空格的处理和对<code>&amp;nbsp;</code>的处理是不一样的。不过这里就没深究了，感兴趣的同学可以查看一下<code>AlloyTeam</code>博客的这篇文章：<a href="http://www.alloyteam.com/2016/05/css-word-for-word-breaker-do-you-really-understand/" target="_blank" rel="noopener">【CSS单词换行and断词，你真的完全了解吗】</a>。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天同事突然给我反馈了一个这样的问题，我一看，什么鬼，怎么变成这样了。就看了一下代码，发现每一行右边的p标签用了&lt;code&gt;absolute&lt;/code&gt;属性，所以就导致了发生了这样的事情。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://oetmrek6t.bkt.clouddn.com/article_64_1.png&quot; alt=&quot;BUG图片&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="CSS" scheme="http://helianthuswhite.cn/tags/CSS/"/>
+    
+      <category term="CSS3" scheme="http://helianthuswhite.cn/tags/CSS3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我要你</title>
+    <link href="http://helianthuswhite.cn/2017/09/23/music-20/"/>
+    <id>http://helianthuswhite.cn/2017/09/23/music-20/</id>
+    <published>2017-09-23T14:48:07.000Z</published>
+    <updated>2019-07-02T11:57:14.106Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">我在他乡，望着月亮</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=437292675&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">我要你 - 任素汐<br><br>我要 你在我身旁<br>我要 你为我梳妆<br>这夜的风儿吹<br>吹得心痒痒 我的情郎<br>我在他乡 望着月亮<br>都怪这月色 撩人的疯狂<br>都怪这Guitar 弹得太凄凉<br>欧 我要唱着歌<br>默默把你想 我的情郎<br>你在何方 眼看天亮<br>都怪这夜色 撩人的疯狂<br>都怪这Guitar 弹得太凄凉<br>欧 我要唱着歌<br>默默把你想 我的情郎<br>你在何方 眼看天亮<br>我要 美丽的衣裳<br>为你 对镜贴花黄<br>这夜色太紧张<br>时间太漫长 我的情郎<br>我在他乡 望着月亮<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;我在他乡，望着月亮&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=437292675&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>前世情人</title>
+    <link href="http://helianthuswhite.cn/2017/09/23/music-19/"/>
+    <id>http://helianthuswhite.cn/2017/09/23/music-19/</id>
+    <published>2017-09-23T14:48:04.000Z</published>
+    <updated>2019-07-02T11:57:13.733Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">什么爱不说就已经存在，什么爱望着就全都明白</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=415792918&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">前世情人 - 周杰伦<br><br>松鼠陪着核桃<br>在庭院捉迷藏<br>葡萄躲进橡木桶<br>酿出时光<br>夏日在玉米齿缝中游荡<br>我为你准备的四季<br>正在生长<br>炼金师从故事炼出土壤<br>我阖上书也闻到了花香<br>草地上的你比果实芬芳<br>你就像天使手里的糖<br>小男孩害羞没想起<br>自己是个雕像<br>沉浸在芦苇跟风合奏<br>用美妙歌声赞扬<br>世界因为你而露出<br>阳光灿烂的形状<br>谢谢你不然纯真是什么<br>我早已经遗忘<br>什么爱不说就已经存在<br>什么爱望着就全都明白<br>你笑一点一点一滴漾开<br>一字一句形容不来<br>是星空上的银海<br>月晕下的双手<br>越来越来越来越依靠<br>从来从来从来不知道<br>原来原来原来有你很骄傲<br>小公主过来过来过来<br>约定好<br>未来未来未来的城堡<br>将来将来将来<br>我们一起造<br>我会当你昼夜骑士<br>烈阳的树荫<br>让花朵为你吟游的魔术师<br>每一道有你风景<br>帮你按下快门的秘密情人<br>什么爱不说就已经存在<br>什么爱望着就全都明白<br>你笑一点一点一滴漾开<br>一字一句形容不来<br>是星空上的银海<br><br>我后来会在纯白的礼堂<br>牵好久的手交给另个他<br>眼泪一点一点一滴流下<br>感动也会跟着留下<br>远远看着你们幸福<br>像前世我们有过的模样<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;什么爱不说就已经存在，什么爱望着就全都明白&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=415792918&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>失恋</title>
+    <link href="http://helianthuswhite.cn/2017/09/23/music-18/"/>
+    <id>http://helianthuswhite.cn/2017/09/23/music-18/</id>
+    <published>2017-09-23T14:48:00.000Z</published>
+    <updated>2019-07-02T11:57:13.501Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">莫于孤清里自怜自挂</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=349079&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">失恋 - 草蜢<br><br>将敌意 将身份放低些吧<br>今夜里 应一起了解她<br>失败过 哪用怕 即管说吧<br>共于苦恋中找点潇洒<br>深夜里 将一起暗恋的她<br>互倾诉 不应关闭嘴巴<br>遭遇也 会近似 将苦诉吧<br>莫于孤清里自怜自挂<br>象你这般深爱她 心里只得一个她<br>她偏却 太傲气 见面也不多说话<br>要坦率分析 为何没法得到她<br>心里长留下旧创疤<br>将阵线 将思想也统一吧<br>于今晚 应一起探讨她<br>假若有 结论再 一起爱吧<br>莫于孤清里自怜自挂<br><br>将敌意 将身份放低些吧<br>今夜里 应一起了解她<br>失败过 哪用怕 即管说吧<br>共于苦恋中找点潇洒<br>深夜时 将一起暗恋的她<br>互倾诉 不应关闭嘴巴<br>遭遇也 会近似 将苦诉吧<br>莫于孤清里自怜自挂<br>象你这般深爱她 心里只得一个她<br>她偏却 太傲气 见面也不多说话<br>要坦率分析 为何没法得到她<br>心里长留下旧创疤<br>将阵线 将思想也统一吧<br>于今晚 应一起探讨她<br>假若有 结论再 一起爱吧<br>莫于孤清里自怜自挂<br>莫于孤清里自怜自挂<br>莫于孤清里自怜自挂<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;莫于孤清里自怜自挂&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=349079&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>电灯胆</title>
+    <link href="http://helianthuswhite.cn/2017/09/23/music-17/"/>
+    <id>http://helianthuswhite.cn/2017/09/23/music-17/</id>
+    <published>2017-09-23T14:47:55.000Z</published>
+    <updated>2019-07-02T11:57:13.340Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">能回避嘛我怕了当那电灯胆</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=224086&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">电灯胆 - 邓丽欣<br><br>假使不能公开妒忌<br>学习大方接受<br>同行时要殿后<br>谁冷落旧朋友<br>节日约我三位一体的庆祝<br>沿途明亮灯饰闪映着沉重<br>言谈越炽热内在更冰冻<br>谁当初无心将两方撮合<br>然后留低只得这寂寞人<br>仍是你们密友呆望你们热吻<br>应该伤感还是快感<br>能回避嘛我怕了当那电灯胆<br>黏着你们来来回委曲中受难<br>一个我被撇低却又很不惯<br>要走的一剎又折返<br>能承认嘛我故意当那电灯胆<br>他日你们完场时入替也不难<br>善良人埋藏着最坏的心眼<br>妄想一天你们会散<br>会选我吗<br>对换了你身份可应该满足<br>情人还是知己都拥入怀抱<br>同情或眼泪让别个得到<br>留低的原因一世的秘密<br>其实明知只得我是外人<br>仍是你们密友呆望你们热吻<br>应该开心还是痛心<br>能回避嘛我怕了当那电灯胆<br>黏着你们来来回委曲中受难<br>一个我被撇低却又很不惯<br>要走的一剎又折返<br>能承认嘛我故意当那电灯胆<br>他日你们完场时入替也不难<br>善良人埋藏着最坏的心眼<br>妄想一天你们会散<br>会选我吗<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;能回避嘛我怕了当那电灯胆&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=224086&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我们的歌</title>
+    <link href="http://helianthuswhite.cn/2017/09/23/music-16/"/>
+    <id>http://helianthuswhite.cn/2017/09/23/music-16/</id>
+    <published>2017-09-23T14:47:50.000Z</published>
+    <updated>2019-07-02T11:57:13.110Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">情人总分分合合，可我们却越爱越深</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=25642952&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">我们的歌 - 王力宏<br><br>已经听了一百遍 怎么听都不会倦<br>从白天唱到黑夜 你一直在身边（一直在身边）<br>如果世界太危险 只有音乐最安全 带着我进梦里面 让歌词都实现<br>无论是开心还是难过我的爱一直不变<br>（不必担心时间流逝带走一切）<br>无论是HIP-HOP还是摇滚我的爱一直不变<br>（所有美好回忆记录在里面）<br>这种Forever Love 那么深<br>我们的歌 那么真<br>无国界 跨时代<br>再不会叫我KISS GOODBYE<br>要每一句能够动人心弦 YE~~<br>情人总分分合合<br>可是我们却越爱越深<br>认识你让我的幸福如此 悦耳<br>能不能不要切歌 继续唱我们的歌<br>让感动一辈子都记得<br>en heng<del>~<br>wo~ o~<br>已经听了一百遍 怎么听都不会倦<br>从白天唱到黑夜 你一直在身边（一直在身边）<br>如果世界太危险 只有音乐最安全 带着我进梦里面 让歌词都实现<br>无论是开心还是难过我的爱一直不变<br>（不必担心时间流逝带走一切）<br>无论是HIP-HOP还是摇滚我的爱一直不变<br>（所有美好回忆记录在里面）<br>这种Forever Love那么深 我们的歌那么真<br>无国界 跨时代<br>再不会叫我KISS GOODBYE<br>要每一句能够动人心弦 YE</del><br>情人总分分合合<br>可是我们却越爱越深<br>认识你让我的幸福如此 悦耳<br>能不能不要切歌 继续唱我们的歌<br>让感动一辈子都记得<br><br>（一辈子都记得）<br>情人总分分合合<br>可是我们却越爱越深<br>认识你让我的幸福如此 悦耳<br>能不能不要切歌 继续唱我们的歌<br>让感动一辈子都记得<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;情人总分分合合，可我们却越爱越深&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=25642952&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>宝贝</title>
+    <link href="http://helianthuswhite.cn/2017/09/23/music-15/"/>
+    <id>http://helianthuswhite.cn/2017/09/23/music-15/</id>
+    <published>2017-09-23T14:47:40.000Z</published>
+    <updated>2019-07-02T11:57:13.036Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">哎呀呀呀呀呀我的宝贝，要你知道你最美</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=326738&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">宝贝 - 张悬<br><br>我的宝贝 宝贝<br>给你一点甜甜<br>让你今夜都好眠<br>我的小鬼 小鬼<br>逗逗你的眉眼<br>让你喜欢这世界<br>哇啦啦啦啦啦我的宝贝<br>倦的时候有个人陪<br>哎呀呀呀呀呀我的宝贝<br>要你知道你最美<br>我的宝贝 宝贝<br>给你一点甜甜<br>让你今夜很好眠<br>我的小鬼 小鬼<br>捏捏你的小脸<br>让你喜欢整个明天<br>哇啦啦啦啦啦我的宝贝<br>倦的时候有个人陪<br>哎呀呀呀呀呀我的宝贝<br>要你知道你最美<br>哇啦啦啦啦啦我的宝贝<br>孤单时有人把你想念<br>哎呀呀呀呀呀我的宝贝<br>要你知道你最美<br>哇啦啦啦啦啦Yeah…woo<br>Yeah…woo…<br>哇啦啦啦啦啦我的宝贝<br>倦的时候有个人陪<br>哎呀呀呀呀呀我的宝贝<br>要你知道你最美<br>要你知道你最美<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;哎呀呀呀呀呀我的宝贝，要你知道你最美&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=326738&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CRSF攻击原理与防范</title>
+    <link href="http://helianthuswhite.cn/2017/09/08/article-62/"/>
+    <id>http://helianthuswhite.cn/2017/09/08/article-62/</id>
+    <published>2017-09-08T06:20:44.000Z</published>
+    <updated>2019-07-02T11:57:10.689Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>XSS攻击原理与防范</title>
+    <link href="http://helianthuswhite.cn/2017/09/08/article-61/"/>
+    <id>http://helianthuswhite.cn/2017/09/08/article-61/</id>
+    <published>2017-09-08T06:15:58.000Z</published>
+    <updated>2019-07-02T11:57:10.588Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JS中new操作符的效果</title>
+    <link href="http://helianthuswhite.cn/2017/09/08/article-60/"/>
+    <id>http://helianthuswhite.cn/2017/09/08/article-60/</id>
+    <published>2017-09-08T06:06:39.000Z</published>
+    <updated>2019-07-02T11:57:10.491Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>viewport标签详解</title>
+    <link href="http://helianthuswhite.cn/2017/09/08/article-59/"/>
+    <id>http://helianthuswhite.cn/2017/09/08/article-59/</id>
+    <published>2017-09-08T06:04:02.000Z</published>
+    <updated>2019-07-02T11:57:10.221Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>a标签设置不跳转</title>
+    <link href="http://helianthuswhite.cn/2017/09/08/article-58/"/>
+    <id>http://helianthuswhite.cn/2017/09/08/article-58/</id>
+    <published>2017-09-08T05:59:13.000Z</published>
+    <updated>2019-07-02T11:57:10.020Z</updated>
+    
+    <content type="html"><![CDATA[<p>又是在面试的时候，被问到这个问题，看起来好像很简单，非常基础的一个问题。大家肯定也都知道有哪些方法，可是一旦细问起来，又有很多细节发现并不清楚，所以下去也好好了解了一下这个问题。</p><a id="more"></a><p>a标签设置不跳转，常见的方法有三种：</p><ul><li>设置<code>href</code>的值为<code>javascript:void(0);</code></li><li>设置<code>href</code>的值为<code>#</code></li><li>添加<code>onclick</code>属性并设置为<code>return false</code></li></ul><p>接下来我们详细解释一下三个设置的原理。</p><h2 id="href设置为javascript"><a href="#href设置为javascript" class="headerlink" title="href设置为javascript"></a>href设置为javascript</h2><p>这里很多人都知道我可以设置为<code>javascript:void(0);</code>或者<code>javascript:;</code>都可以阻止a标签的跳转，那么在<code>javascript</code>的冒号后面可以接其他的内容吗？</p><p>当然是可以的! <code>href</code>属性值是当前链接标签的指向，我们可以使用<code>javascript</code>加冒号开头，来将该标签指向一段javascript代码，这是点击该标签会执行指向的代码，而不是发生跳转行为。</p><p>需要知道的是，因为已经通过<code>javascript:</code>开头将标签指向代码了，所以不管冒号后面填写什么标签都不会再进行跳转，而是进入浏览器的js执行环境去。</p><h2 id="href设置为"><a href="#href设置为" class="headerlink" title="href设置为"></a>href设置为</h2><p>将<code>href</code>的属性值设置为<code>#</code>号，其实是给标签设置了默认的锚点，指向当前页面的顶部，所以在点击时会回到当前页面的顶部。但是我们依然可以使用这种方法来阻止标签跳转！</p><p>就是不要只使用<code>#</code>号，可以在<code>#</code>号后面加一个其他的值，这样页面就不会发生跳转。</p><h2 id="onclick来阻止跳转"><a href="#onclick来阻止跳转" class="headerlink" title="onclick来阻止跳转"></a>onclick来阻止跳转</h2><p>使用<code>onclick</code>就是给标签绑定一个点击事件，但是这里只能在等号后面填写<code>return false;</code>，这样的话当前标签的默认事件便不会执行，从而达到阻止标签跳转的目的。</p><p>这里需要注意的是，在<code>onclick</code>的等号后面填写方法名称，在方法中返回<code>false</code>的办法是不行的，只能在标签的属性值中填写<code>return false;</code>。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;又是在面试的时候，被问到这个问题，看起来好像很简单，非常基础的一个问题。大家肯定也都知道有哪些方法，可是一旦细问起来，又有很多细节发现并不清楚，所以下去也好好了解了一下这个问题。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="面试" scheme="http://helianthuswhite.cn/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="HTML" scheme="http://helianthuswhite.cn/tags/HTML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>img标签的title和alt属性的区别</title>
+    <link href="http://helianthuswhite.cn/2017/09/08/article-57/"/>
+    <id>http://helianthuswhite.cn/2017/09/08/article-57/</id>
+    <published>2017-09-08T05:57:26.000Z</published>
+    <updated>2019-07-02T11:57:09.767Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前一直没有注意过img标签的title属性和alt属性有什么区别，一次面试中被问到这道题，突然懵逼了，这么基础的东西却一直都不知道。</p><a id="more"></a><h2 id="title属性"><a href="#title属性" class="headerlink" title="title属性"></a>title属性</h2><p>title属性主要用来给图片进行辅助性的提示，当用户鼠标滑过或者置于img标签上时，会出现对应的提示信息。</p><h2 id="alt属性"><a href="#alt属性" class="headerlink" title="alt属性"></a>alt属性</h2><p>alt属性是img标签的必要属性，它用于图片无法显示时的提示，可以让用户知道该未显示的图片是什么。</p><p>其长度只有1024个字符，当图片描述超过1024个字符时，可以使用<code>longdesc</code>属性来指向图像描述信息页面。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前一直没有注意过img标签的title属性和alt属性有什么区别，一次面试中被问到这道题，突然懵逼了，这么基础的东西却一直都不知道。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="HTML" scheme="http://helianthuswhite.cn/tags/HTML/"/>
+    
+      <category term="SEO" scheme="http://helianthuswhite.cn/tags/SEO/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【百度笔记】Spring相关注解</title>
+    <link href="http://helianthuswhite.cn/2017/08/16/article-56/"/>
+    <id>http://helianthuswhite.cn/2017/08/16/article-56/</id>
+    <published>2017-08-16T07:45:15.000Z</published>
+    <updated>2019-07-02T11:57:09.630Z</updated>
+    
+    <content type="html"><![CDATA[<p>由于突然转成RD，对于JAVA的很多知识还很欠缺，所以在学习源码的时候，记录一下必要的一些知识点。</p><p>本篇主要是记录Spring的一些注解用法。</p><a id="more"></a><h2 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a>@Controller</h2><p><code>@Controller</code>注解将一个类定义为<code>Controller</code>，之后可以使用<code>Controller</code>的一些方法。</p><h2 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h2><p><code>@ResponseBody</code>注解用于将<code>Controller</code>的方法返回的对象，通过适当的<code>HttpMessageConverter</code>转换为指定格式后，写入到<code>Response</code>对象的body数据区。</p><h2 id="RestController"><a href="#RestController" class="headerlink" title="@RestController"></a>@RestController</h2><p><code>@RestController</code>注解相当于是<code>@Controller</code>和<code>@ResponseBody</code>合在一起使用。</p><h2 id="RequestMapping"><a href="#RequestMapping" class="headerlink" title="@RequestMapping"></a>@RequestMapping</h2><p><code>@RequestMapping</code>注解用于匹配请求的URL。</p><h2 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h2><p><code>@AutoWired</code>注解用于Spring自动装配注解的bean。</p><h2 id="ApiOperation"><a href="#ApiOperation" class="headerlink" title="@ApiOperation"></a>@ApiOperation</h2><p><code>@ApiOperation</code>注解为Swagger项目中API声明的相关注解，Swagger项目为生成Restful风格的接口文档项目。</p><h2 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a>@PathVariable</h2><p><code>@PathVariable</code>注解用于将URL中参数绑定到控制器处理方法的入参中。</p><h2 id="QueryParam"><a href="#QueryParam" class="headerlink" title="@QueryParam"></a>@QueryParam</h2><p><code>@QueryParam</code>注解用于获取GET请求中的查询查询参数。</p><h2 id="JsonProperty"><a href="#JsonProperty" class="headerlink" title="@JsonProperty"></a>@JsonProperty</h2><p><code>@JsonProperty</code>用于将一个属性的名称序列化成另一个名称。</p><h2 id="Value"><a href="#Value" class="headerlink" title="@Value"></a>@Value</h2><p><code>@Value</code>注解用于从配置文件读取值并赋给变量。</p><h2 id="Qualifier"><a href="#Qualifier" class="headerlink" title="@Qualifier"></a>@Qualifier</h2><p><code>@Qualifier</code>注解指定自动注入的Bean的名称。</p><h2 id="ComponentScan"><a href="#ComponentScan" class="headerlink" title="@ComponentScan"></a>@ComponentScan</h2><p><code>@ComponentScan</code>注解使项目运行时会自动去扫描指定包下面的<code>@Component</code>、<code>@Controller</code>、<code>@Service</code>等类并注册为bean。</p><h2 id="Repository"><a href="#Repository" class="headerlink" title="@Repository"></a>@Repository</h2><p><code>@Repository</code>用于将DAO层的类标识为Spring Bean。</p><h2 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h2><p><code>@Deprecated</code>注解告诉已经调用该方法的调用者该方法不是最佳实践。</p><h2 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h2><p><code>@Retention</code>注解标注了声明的注解会被保留到程序执行的哪个阶段。</p><h2 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h2><p><code>@Target</code>用于指定注解的使用范围。</p><h2 id="Async"><a href="#Async" class="headerlink" title="@Async"></a>@Async</h2><p><code>@Async</code>注解标识异步执行的方法，将开启另一线程。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;由于突然转成RD，对于JAVA的很多知识还很欠缺，所以在学习源码的时候，记录一下必要的一些知识点。&lt;/p&gt;
+&lt;p&gt;本篇主要是记录Spring的一些注解用法。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="百度笔记" scheme="http://helianthuswhite.cn/categories/%E7%99%BE%E5%BA%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="JavaWeb" scheme="http://helianthuswhite.cn/tags/JavaWeb/"/>
+    
+      <category term="Spring" scheme="http://helianthuswhite.cn/tags/Spring/"/>
+    
+      <category term="Java" scheme="http://helianthuswhite.cn/tags/Java/"/>
+    
+      <category term="百度笔记" scheme="http://helianthuswhite.cn/tags/%E7%99%BE%E5%BA%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>判断对象是否拥有某个属性</title>
+    <link href="http://helianthuswhite.cn/2017/07/24/article-55/"/>
+    <id>http://helianthuswhite.cn/2017/07/24/article-55/</id>
+    <published>2017-07-24T03:23:48.000Z</published>
+    <updated>2019-07-02T11:57:09.403Z</updated>
+    
+    <content type="html"><![CDATA[<p>判断对象中是否有某个属性，有两种比较常用的方法，一种是通过关键字 <code>in</code> 来进行判断，另一种是通过对象的 <code>hasOwnProperty()</code>方法进行判断。</p><a id="more"></a><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    b: <span class="number">1</span>,</span><br><span class="line">    c: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"b"</span> <span class="keyword">in</span> a);  <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"toString"</span> <span class="keyword">in</span> a);   <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(a.hasOwnProperty(<span class="string">"c"</span>));    <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(a.hasOwnProperty(<span class="string">"toString"</span>));  <span class="comment">//false</span></span><br></pre></td></tr></table></figure><p>需要注意的是使用关键字 <code>in</code> 不仅可以判断对象自身的属性，也可以判断对象继承的属性，而<code>hasOwnProperty</code>方法的话只能判断对象自身的属性是否存在，对于继承的属性则会显示<code>false</code>。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;判断对象中是否有某个属性，有两种比较常用的方法，一种是通过关键字 &lt;code&gt;in&lt;/code&gt; 来进行判断，另一种是通过对象的 &lt;code&gt;hasOwnProperty()&lt;/code&gt;方法进行判断。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="JavaScript" scheme="http://helianthuswhite.cn/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>点击空白关闭弹窗</title>
+    <link href="http://helianthuswhite.cn/2017/07/21/article-54/"/>
+    <id>http://helianthuswhite.cn/2017/07/21/article-54/</id>
+    <published>2017-07-21T08:11:03.000Z</published>
+    <updated>2019-07-02T11:57:09.244Z</updated>
+    
+    <content type="html"><![CDATA[<p>类似于模态框的操作，我们常常会用到这样的操作，除了点击弹出框的关闭按钮，我们还可以通过点击页面中非弹框的部分来关闭弹出框，这里给出两种思路与实现方法。</p><a id="more"></a><h2 id="判断点击是否在目标区域"><a href="#判断点击是否在目标区域" class="headerlink" title="判断点击是否在目标区域"></a>判断点击是否在目标区域</h2><p>判断点击是否在目标区域的条件主要有两点：</p><ul><li>判断点击事件的对象不是目标区域对象</li><li>判断点击时间的对象不是目标区域的子对象</li></ul><p>下面是该方法的js代码实现：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dialog.click = funciton(e) &#123;</span><br><span class="line">    <span class="keyword">var</span> target = <span class="built_in">document</span>.getElementById(<span class="string">'target'</span>);</span><br><span class="line">    <span class="keyword">if</span> (!target.isEqualNode(e.target) &amp;&amp; !target.contains(e.target)) &#123;</span><br><span class="line">        <span class="comment">// your close dialog code</span></span><br><span class="line">        <span class="keyword">this</span>.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h2 id="通过添加一层使点击该层时处理事件"><a href="#通过添加一层使点击该层时处理事件" class="headerlink" title="通过添加一层使点击该层时处理事件"></a>通过添加一层使点击该层时处理事件</h2><p>这个方法稍微麻烦一些但是也是弹窗的一种常见处理方式，主要是在弹窗与页面之间加一个背景层，可以选择透明或者显示灰色等，然后点击该背景层的时候关闭弹窗即可。</p><p>下面是该方法的js代码实现：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">'background'</span>).click = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//your close dialog code</span></span><br><span class="line">    dialog.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;类似于模态框的操作，我们常常会用到这样的操作，除了点击弹出框的关闭按钮，我们还可以通过点击页面中非弹框的部分来关闭弹出框，这里给出两种思路与实现方法。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="前端" scheme="http://helianthuswhite.cn/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="JavaScript" scheme="http://helianthuswhite.cn/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>想把我唱给你听</title>
+    <link href="http://helianthuswhite.cn/2017/05/02/music-14/"/>
+    <id>http://helianthuswhite.cn/2017/05/02/music-14/</id>
+    <published>2017-05-02T12:23:08.000Z</published>
+    <updated>2019-07-02T11:57:12.891Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">想把我唱给你听，趁现在年少如花</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=28234970&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">想把我唱给你听 - 老狼/王婧<br>作曲 : 小柯<br><br>想把我唱给你听<br>趁现在年少如花<br>花儿尽情地开吧<br>装点你的岁月我的枝桠<br>谁能够代替你呢<br>趁年轻尽情的爱吧<br>最最亲爱的人啊<br>路途遥远我们在一起吧<br>我把我唱给你听<br>把你纯真无邪的笑容给我吧<br>我们应该有快乐的幸福的<br>晴朗的时光<br>我把我唱给你听<br>用我炙热的感情感动你好吗<br>岁月是值得怀念的留念的<br>害羞的红色脸庞<br>谁能够代替你呢<br>趁年轻尽情的爱吧<br>最最亲爱的人啊<br>路途遥远我们在一起吧<br><br>想把我唱给你听<br>趁现在年少如花<br>花儿尽情地开吧<br>装点你的岁月我的枝桠<br>谁能够代替你呢<br>趁年轻尽情的爱吧<br>最最亲爱的人啊<br>路途遥远我们在一起吧<br>我把我唱给你听<br>把你纯真无邪的笑容给我吧<br>我们应该有快乐的幸福的<br>晴朗的时光<br>我把我唱给你听<br>用我炙热的感情感动你好吗<br>岁月是值得怀念的留念的<br>害羞的红色脸庞<br><br>我们应该有快乐的幸福的<br>晴朗的时光<br>我把我唱给你听<br>用我炙热的感情感动你好吗<br>岁月是值得怀念的留念的<br>害羞的红色脸庞<br>谁能够代替你呢<br>趁年轻尽情的爱吧<br>最最亲爱的人啊<br>路途遥远我们在一起吧<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;想把我唱给你听，趁现在年少如花&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=28234970&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关键词</title>
+    <link href="http://helianthuswhite.cn/2017/05/02/music-13/"/>
+    <id>http://helianthuswhite.cn/2017/05/02/music-13/</id>
+    <published>2017-05-02T12:22:58.000Z</published>
+    <updated>2019-07-02T11:57:12.781Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">有一种踏实，是你心中有我名字</blockquote><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="100" src="//music.163.com/outchain/player?type=2&id=40147554&auto=0&height=66"></iframe><a id="more"></a><p style="text-align: center;">关键词 - 林俊杰<br>作曲 : 林俊杰<br>作词 : 林怡凤<br><br>好好爱自己 就有人会爱你<br>这乐观的说词<br>幸福的样子 我感觉好真实<br>找不到形容词<br>沉默在掩饰 快泛滥的激情<br>只剩下语助词<br>有一种踏实 当你口中喊我名字<br>落叶的位置 谱出一首诗<br>时间在消逝 我们的故事开始<br>这是第一次<br>让我见识爱情 可以慷慨又自私<br>你是我的关键词<br><br>我不太确定 爱最好的方式<br>是动词或名词<br>很想告诉你 最赤裸的感情<br>却又忘词<br>聚散总有时 而哭笑也有时<br>我不怕潜台词<br>有一种踏实 是你心中有我名字<br>落叶的位置 谱出一首诗<br>时间在消逝 我们的故事开始<br>这是第一次<br>让我见识爱情 可以慷慨又自私<br>你是我的关键词<br>你藏在歌词<br>代表的意思<br>是专有名词<br>落叶的位置<br>谱出一首诗<br>我们的故事<br>才正要开始<br>这是第一次<br>爱一个人爱得如此慷慨又自私<br>你是我的关键词<br></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;有一种踏实，是你心中有我名字&lt;/blockquote&gt;
+
+&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;330&quot; height=&quot;100&quot; src=&quot;//music.163.com/outchain/player?type=2&amp;id=40147554&amp;auto=0&amp;height=66&quot;&gt;&lt;/iframe&gt;
+    
+    </summary>
+    
+      <category term="故事" scheme="http://helianthuswhite.cn/categories/%E6%95%85%E4%BA%8B/"/>
+    
+    
+      <category term="音乐" scheme="http://helianthuswhite.cn/tags/%E9%9F%B3%E4%B9%90/"/>
+    
+  </entry>
+  
+</feed>
